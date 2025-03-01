@@ -128,7 +128,7 @@ exports.getGlobalHighScore = async (req, res) => {
 
         // Find the user with the highest score
         const topUser = await User.aggregate([
-            { $addFields: { scoreNumber: { $toDouble: "$score" } } }, // Convert score to number
+            { $addFields: { scoreNumber: { $toDouble: "$highScore" } } }, // Convert score to number
             { $sort: { scoreNumber: -1 } }, // Sort by the converted number
             { $limit: 1 } // Limit to the top user
         ]);
