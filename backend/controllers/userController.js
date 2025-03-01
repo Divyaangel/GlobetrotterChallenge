@@ -122,18 +122,26 @@ exports.getHighScore = async (req, res) => {
 
 exports.getGlobalHighScore = async (req, res) => {
     try {
+        // Debug: Log all users to check scores
+        const allUsers = await User.find({});
+        console.log('All Users:', allUsers);
+
         // Find the user with the highest score
-        const topUser = await User.findOne({}, null, { sort: { score: -1 } });
+        const topUser = await User.findOne({}, { sort: {highScore: -1 } });
+        console.log('Top User:', topUser);
 
         if (!topUser) {
-            return res.status(404).json({ message: 'No high scores found' });
+            return res.status(404).json({ message: 'No users found or no scores available' });
         }
 
+        // Debug: Check the data type of the score
+        console.log('Top User Score Type:', typeof topUser.highScore);
+
         // Return only the global high score
-        res.json({ globalHighScore: topUser.score });
+        res.json({ globalHighScore: topUser.highScore });
     } catch (error) {
         console.error('Error retrieving global high score:', error);
-        res.status(500).json({ error: 'An error occurred while retrieving the high score' });
+        res.status(500).json({ error: 'An error occurred while retrieving the high score', details: error.message });
     }
 };
 
