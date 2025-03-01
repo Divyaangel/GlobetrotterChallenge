@@ -28,7 +28,7 @@ const Game = ({ username }) => {
 
         if (challenger && score) {
             // Update challenged high score
-            axios.get(`https://globetrotterchallenge-backend.onrender.com/api/user/set-challenged-highscore`, {
+            axios.get(`https://globetrotterchallengebackend2.onrender.com/api/user/set-challenged-highscore`, {
                 params: { challenger, score },
             })
             .then((response) => {
@@ -46,7 +46,7 @@ const Game = ({ username }) => {
     const fetchRandomDestination = async () => {
         setIsLoading(true);
         try {
-            const response = await axios.get('https://globetrotterchallenge-backend.onrender.com/api/destinations/random');
+            const response = await axios.get('https://globetrotterchallengebackend2.onrender.com/api/destinations/random');
             setDestination(response.data);
             generateOptions(response.data);
             setShowDetails(false);
@@ -66,7 +66,7 @@ const Game = ({ username }) => {
 
     const updateScore = async (newScore) => {
         try {
-            await axios.post(`https://globetrotterchallenge-backend.onrender.com/api/user/${username}/update-score`, {
+            await axios.post(`https://globetrotterchallengebackend2.onrender.com/api/user/${username}/update-score`, {
                 score: newScore,
             });
             console.log('Score updated successfully!');
@@ -77,8 +77,8 @@ const Game = ({ username }) => {
 
     const fetchHighScores = async () => {
         try {
-            const userHighScoreResponse = await axios.get(`https://globetrotterchallenge-backend.onrender.com/api/user/${username}/highscore`);
-            const globalHighScoreResponse = await axios.get('https://globetrotterchallenge-backend.onrender.com/api/user/globalhighscore');
+            const userHighScoreResponse = await axios.get(`https://globetrotterchallengebackend2.onrender.com/api/user/${username}/highscore`);
+            const globalHighScoreResponse = await axios.get('https://globetrotterchallengebackend2.onrender.com/api/user/globalhighscore');
             setGlobalHighScore(globalHighScoreResponse.data.globalHighScore);
             setUserHighScore(userHighScoreResponse.data.highScore);
         } catch (error) {
