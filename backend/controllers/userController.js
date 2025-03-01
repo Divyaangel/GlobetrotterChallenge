@@ -127,24 +127,23 @@ exports.getGlobalHighScore = async (req, res) => {
         console.log('All Users:', allUsers);
 
         // Find the user with the highest score
-        const topUser = await User.findOne({}, { sort: {highScore: -1 } });
-        console.log('Top User:', topUser);
-
-        if (!topUser) {
+        const topUser = await User.aggregate([
+            { $addFields: { scoreNumber: { $toDouble: "$score" } } }, // Convert score to number
+            { $sort: { scoreNumber: -1 } }, // Sort by the converted number
+            { $limit: 1 } // Limit to the top user
+        ]);
+        
+        if (topUser.length === 0) {
             return res.status(404).json({ message: 'No users found or no scores available' });
         }
+        
+        res.json({ globalHighScore: topUser[0].scoreNumber });
 
-        // Debug: Check the data type of the score
-        console.log('Top User Score Type:', typeof topUser.highScore);
-
-        // Return only the global high score
-        res.json({ globalHighScore: topUser.highScore });
-    } catch (error) {
+        } catch (error) {
         console.error('Error retrieving global high score:', error);
         res.status(500).json({ error: 'An error occurred while retrieving the high score', details: error.message });
     }
 };
-
 exports.setChallengedHighScore = async (req, res) => {
     try {
         const { challenger, score } = req.query;
