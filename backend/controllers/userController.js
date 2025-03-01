@@ -124,7 +124,7 @@ exports.getGlobalHighScore = async (req, res) => {
     try {
         // Debug: Log all users to check scores
         const allUsers = await User.find({});
-        console.log('All Users:', allUsers);
+      
 
         // Find the user with the highest score
         const topUser = await User.aggregate([
