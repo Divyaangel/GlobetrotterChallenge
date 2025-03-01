@@ -17,12 +17,12 @@ const Registration = ({ onRegister, onLogin }) => {
             let response;
             if (isLoginMode) {
                 // Use query parameters for GET request
-                response = await axios.get('http://localhost:5000/api/user/login', {
+                response = await axios.get('https://globetrotterchallenge-backend.onrender.com/api/user/login', {
                     params: { username }, // Pass username as a query parameter
                 });
             } else {
                 // Use POST request for registration
-                response = await axios.post('http://localhost:5000/api/user/register', {
+                response = await axios.post('https://globetrotterchallenge-backend.onrender.com/api/user/register', {
                     username,
                     score: 0, // Default score for registration
                 });
